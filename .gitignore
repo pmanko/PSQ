@@ -1,0 +1,8 @@
+data
+outputs
+*.Rhistory
+old
+.Rproj.user
+.Rhistory
+*.RData
+BAK/
