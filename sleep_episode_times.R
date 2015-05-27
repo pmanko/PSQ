@@ -48,3 +48,4 @@ merged_counts <- merge(sp_counts, wp_counts, by='subject_code')
 
 merged_sp_times <- merge(sleep_period_start_times, wake_period_start_times, by=c('subject_code','period_number'))
 setnames(merged_sp_times, c('period_number', 'start_time.x', 'start_time.y'), c('sleep_period','start_labtime', 'end_labtime'))
+

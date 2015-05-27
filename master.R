@@ -90,16 +90,47 @@ master_copy <- copy(master_sheet)
 master_copy[,labtime:=as.numeric(as.character(labtime))]
 master_copy[,labtime_end_diff:=abs(labtime-sleep_episode_end_time)]
 master_copy[,labtime_start_diff:=abs(labtime-sleep_episode_start_time)]
+master_copy[,pik:=.I]
 
+clean_master <- master_copy[(labtime_start_diff < 3 | labtime_end_diff < 3 | is.na(labtime_start_diff) | is.na(labtime_end_diff))]
+clean_master <- clean_master[!is.na(q_1) & !is.na(q_8)]
 
-clean_master <- master_copy[(labtime_start_diff < 1 | labtime_end_diff < 1 | is.na(labtime_start_diff) | is.na(labtime_end_diff))]
-clean_master <- clean_master[!is.na(sleep_episode_end_time) & !is.na(q_1) & !is.na(q_8)]
+to_clean <- master_copy[(labtime_start_diff >= 3 & labtime_end_diff >= 3) & !is.na(q_1) & !is.na(q_8)]
+left_out <- master_copy[!pik%in%to_clean$pik & !pik%in%clean_master$pik]
 
-to_clean <- master_copy[(labtime_start_diff >= 1 & labtime_end_diff >= 1 & !is.na(labtime_start_diff) & !is.na(labtime_end_diff)) | is.na(sleep_episode_end_time) | is.na(q_1) | is.na(q_8)]
-
-# Rows: 4069
-# Subjects: 170
+# Rows: 4069 | 5526
+# Subjects: 170 | 200
 clean_master
+
+# Rows: 147
+# Subjects: 32
+to_clean
+
+# Rows: 1424
+# Subjects: 125
+left_out
+
+write.csv(clean_master, file='/home/pwm4/Desktop/psqs_merged_20150527.csv')
+write.csv(to_clean, file='/home/pwm4/Desktop/psqs_to_clean_20150527.csv')
+write.csv(left_out, file='/home/pwm4/Desktop/psqs_left_out_20150527.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### OLD
 
